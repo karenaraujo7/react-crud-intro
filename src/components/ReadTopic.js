@@ -1,8 +1,20 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function ReadTopic() {
   const [topics, setTopics] = useState([])
+  const navigate = useNavigate()
+
+  async function deleteTopic(id) {
+    try {
+      await axios.delete(`https://ironrest.herokuapp.com/ironhelp/${id}`)
+
+      window.location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     async function fetchTopic() {
@@ -26,7 +38,19 @@ export default function ReadTopic() {
         return (
           <div key={currentTopic._id}>
             <h2>{currentTopic.title}</h2>
-            <p>{currentTopic.body}</p>{' '}
+            <p>{currentTopic.body}</p>
+            <button
+              onClick={() => {
+                navigate(`/edit-topic/${currentTopic._id}`)
+              }}
+            >
+              Editar
+            </button>
+            <button onClick={() => {
+              deleteTopic(currentTopic._id)
+            }}>
+              Deletar
+            </button>
           </div>
         )
       })}

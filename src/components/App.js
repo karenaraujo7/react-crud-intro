@@ -9,7 +9,7 @@ return <div>
   <Routes>
     <Route path="/" element={<ReadTopic/>}/>
     <Route path="/create-topic" element={<Form/>}/>
-    <Route path="/update-topic/:id" element={<EditTopic/>}/>
+    <Route path="/edit-topic/:id" element={<EditTopic/>}/>
   </Routes>
   
   

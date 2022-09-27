@@ -1,13 +1,13 @@
 import axios from 'axios' // axios é uma biblioteca que possui métodos capaz de fazer requisições http a um servidor (get, post, put, patch, delete)
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
-export default function CreateTopic() {
+export default function EditTopic() {
   const [form, setForm] = useState({
     title: '',
     body: '',
   })
-
+  const navigate = useNavigate()
   const { id } = useParams() // retorna um objeto com pares de chave/valor dos parâmetros dinâmicos da URL atual que foram correspondidos
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function CreateTopic() {
     axios
       .put(`https://ironrest.herokuapp.com/ironhelp/${id}`, form)
       .then(() => {
-        alert('Seu post foi criado')
+        navigate('/')
       })
       .catch((err) => {
         console.log(err)
