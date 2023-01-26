@@ -5,16 +5,17 @@ import { useParams, useNavigate } from 'react-router-dom'
 export default function EditTopic() {
   const [form, setForm] = useState({
     title: '',
-    body: '',
+    content: '',
   })
   const navigate = useNavigate()
-  const { id } = useParams() // retorna um objeto com pares de chave/valor dos parâmetros dinâmicos da URL atual que foram correspondidos
+  const {id}  = useParams() // retorna um objeto com pares de chave/valor dos parâmetros dinâmicos da URL atual que foram correspondidos
+  console.log(id)
 
   useEffect(() => {
     async function fetchTopic() {
       try {
         const response = await axios.get(
-          `https://ironrest.herokuapp.com/ironhelp/${id}`,
+          `https://ironrest.cyclic.app/blocoDeNotasDaKa/${id}`,
         )
 
         delete response.data._id
@@ -35,7 +36,7 @@ export default function EditTopic() {
     event.preventDefault()
 
     axios
-      .put(`https://ironrest.herokuapp.com/ironhelp/${id}`, form)
+      .put(`https://ironrest.cyclic.app/blocoDeNotasDaKa/${id}`, form)
       .then(() => {
         navigate('/')
       })
@@ -48,10 +49,10 @@ export default function EditTopic() {
     <form onSubmit={handleSubmit}>
       <label>Title</label>
       <input name="title" value={form.title} onChange={handleChange}></input>
-      <label>Body</label>
+      <label>Content</label>
       <textarea
-        name="body"
-        value={form.body}
+        name="content"
+        value={form.content}
         onChange={handleChange}
       ></textarea>
       <button type="submit">Enviar</button>

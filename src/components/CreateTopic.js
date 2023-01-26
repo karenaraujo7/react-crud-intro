@@ -1,34 +1,53 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function CreateTopic() {
+export default function CreateTopic(props) {
   const [form, setForm] = useState({
     title: '',
-    body: ''
+    content: '',
   })
+  const [disponivel, setDisponivel] = useState(false)
 
   function handleChange(event) {
-    setForm({ ...form, [event.target.name]: event.target.value })
+    setForm({...form, [event.target.name]: event.target.value })
   }
 
-  function handleSubmit(event) {
+  console.log(form);
+  useEffect(() => {
+    if (form.title !== '' && form.content !== '') {
+      setDisponivel(true)
+    }
+  }, [form])
+
+  async function handleSubmit(event) {
     event.preventDefault()
 
-    axios.post("https://ironrest.herokuapp.com/ironhelp", form)
-    .then(() => {
+    try {
+      await axios.post('https://ironrest.cyclic.app/blocoDeNotasDaKa', form)
       alert('Seu post foi criado')
-    }).catch((err) => {
-      console.log(err)
-    })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <label>Title</label>
       <input name="title" value={form.title} onChange={handleChange}></input>
-      <label>Body</label>
-      <textarea name="body" value={form.body} onChange={handleChange}></textarea>
-      <button type='submit'>Enviar</button>
+      <label>Content</label>
+      <textarea
+        name="content"
+        value={form.content}
+        onChange={handleChange}
+      ></textarea>
+      {disponivel ? (
+        <button type="submit">Enviar</button>
+      ) : (
+        <button type="submit" disabled>
+          Enviar
+        </button>
+      )}
+      {/* <button type='submit'>Enviar</button> */}
     </form>
   )
 }

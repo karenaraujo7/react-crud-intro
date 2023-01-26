@@ -8,7 +8,7 @@ export default function ReadTopic() {
 
   async function deleteTopic(id) {
     try {
-      await axios.delete(`https://ironrest.herokuapp.com/ironhelp/${id}`)
+      await axios.delete(`https://ironrest.cyclic.app/blocoDeNotasDaKa/${id}`)
 
       window.location.reload()
     } catch (error) {
@@ -20,7 +20,7 @@ export default function ReadTopic() {
     async function fetchTopic() {
       try {
         const response = await axios.get(
-          'https://ironrest.herokuapp.com/ironhelp',
+          'https://ironrest.cyclic.app/blocoDeNotasDaKa',
         )
         console.log(response)
         console.log(response.data)
@@ -32,13 +32,14 @@ export default function ReadTopic() {
     fetchTopic()
   }, [])
 
+  console.log(topics);
   return (
     <div>
       {topics.map((currentTopic) => {
         return (
           <div key={currentTopic._id}>
             <h2>{currentTopic.title}</h2>
-            <p>{currentTopic.body}</p>
+            <p>{currentTopic.content}</p>
             <button
               onClick={() => {
                 navigate(`/edit-topic/${currentTopic._id}`)
